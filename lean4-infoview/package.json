@@ -9,8 +9,14 @@
     "test": "tsc -p test/tsconfig.json"
   },
   "exports": {
-    ".": "./dist/index.development.js",
-    "./loader": "./dist/loader.production.min.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.production.min.js"
+    },
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "default": "./dist/loader.production.min.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
