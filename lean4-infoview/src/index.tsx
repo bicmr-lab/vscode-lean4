@@ -17,7 +17,7 @@ export { importWidgetModule, DynamicComponent, DynamicComponentProps,
     PanelWidgetProps } from './infoview/userWidget';
 
 export { InteractiveCode, InteractiveCodeProps } from './infoview/interactiveCode';
-export { renderInfoview } from './infoview/main';
+export { renderInfoview, mkInfoviewApi, Infoview } from './infoview/main';
 
 export { MessageData };
 

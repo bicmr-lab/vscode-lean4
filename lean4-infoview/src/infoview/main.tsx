@@ -91,6 +91,12 @@ function Main(props: {}) {
   * @returns a collection of methods which must be invoked when the relevant editor events occur.
   */
 export function renderInfoview(editorApi: EditorApi, uiElement: HTMLElement): InfoviewApi {
+    const [editorEvents, infoviewApi] = mkInfoviewApi();
+    connInfoview(editorApi, editorEvents, uiElement);
+    return infoviewApi;
+}
+
+export const mkInfoviewApi = (): [EditorEvents, InfoviewApi] => {
     const editorEvents: EditorEvents = {
         initialize: new EventEmitter(),
         gotServerNotification: new EventEmitter(),
@@ -125,16 +131,26 @@ export function renderInfoview(editorApi: EditorApi, uiElement: HTMLElement): In
         getInfoviewHtml: async () => document.body.innerHTML,
     };
 
-    const ec = new EditorConnection(editorApi, editorEvents);
+    return [editorEvents, infoviewApi]
+}
 
-    editorEvents.initialize.on((loc: Location) => ec.events.changedCursorLocation.fire(loc))
+export const Infoview:
+    React.FC<{ editorApi: EditorApi, editorEvents: EditorEvents }> =
+    ({ editorApi, editorEvents }) => {
+        const ecRef = React.useRef(new EditorConnection(editorApi, editorEvents));
+        const ec = ecRef.current;
+        React.useEffect(() => {
+            editorEvents.initialize.on((loc: Location) => ec.events.changedCursorLocation.fire(loc))
+        }, [])
 
+        return (<EditorContext.Provider value={ec}>
+            <Main />
+        </EditorContext.Provider>)
+    }
+
+const connInfoview = (editorApi: EditorApi, editorEvents: EditorEvents, uiElement: HTMLElement) => {
     const root = ReactDOM.createRoot(uiElement)
     root.render(<React.StrictMode>
-        <EditorContext.Provider value={ec}>
-            <Main/>
-        </EditorContext.Provider>
+        <Infoview editorApi={editorApi} editorEvents={editorEvents} ></Infoview>
     </React.StrictMode>)
-
-    return infoviewApi;
 }
