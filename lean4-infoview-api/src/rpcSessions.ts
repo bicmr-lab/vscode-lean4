@@ -71,7 +71,7 @@ class RpcSessionForFile {
 
         // Here we hook into the JS GC and send release-reference notifications
         // whenever the GC finalizes a number of `RpcPtr`s. Requires ES2021.
-        let releaseTimeout: number | undefined
+        let releaseTimeout: NodeJS.Timeout | undefined
         this.finalizers = new FinalizationRegistry(ptr => {
             if (this.failed) return;
             this.refsToRelease.push(ptr)
