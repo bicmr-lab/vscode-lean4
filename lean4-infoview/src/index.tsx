@@ -13,7 +13,7 @@ export { EditorConnection } from './infoview/editorConnection';
 export { RpcContext } from './infoview/rpcSessions';
 export { ServerVersion } from './infoview/serverVersion';
 export { GoalLocation, GoalsLocation } from './infoview/goalLocation';
-export { importWidgetModule, DynamicComponent, DynamicComponentProps,
+export { importWidgetModule, DynamicComponent, type DynamicComponentProps,
     PanelWidgetProps } from './infoview/userWidget';
 
 export { InteractiveCode, InteractiveCodeProps } from './infoview/interactiveCode';
