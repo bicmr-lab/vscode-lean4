@@ -14,7 +14,7 @@ export { RpcContext } from './infoview/rpcSessions';
 export { ServerVersion } from './infoview/serverVersion';
 export { GoalLocation, GoalsLocation } from './infoview/goalLocation';
 export { importWidgetModule, DynamicComponent, type DynamicComponentProps,
-    PanelWidgetProps } from './infoview/userWidget';
+    type PanelWidgetProps } from './infoview/userWidget';
 
 export { InteractiveCode, InteractiveCodeProps } from './infoview/interactiveCode';
 export { renderInfoview, mkInfoviewApi, Infoview } from './infoview/main';
