@@ -4,11 +4,11 @@ import { Location, DocumentUri, Diagnostic, DiagnosticSeverity, PublishDiagnosti
 
 import { LeanDiagnostic, RpcErrorCode } from '@leanprover/infoview-api';
 
-import { basename, escapeHtml, usePausableState, useEvent, addUniqueKeys, DocumentPosition, useServerNotificationState } from './util';
-import { ConfigContext, EditorContext, LspDiagnosticsContext, VersionContext } from './contexts';
+import { basename, escapeHtml, usePausableState, useEvent, addUniqueKeys, DocumentPosition, useServerNotificationState, type Keyed } from './util';
+import { ConfigContext, EditorContext, LspDiagnosticsContext } from './contexts';
 import { Details } from './collapsing';
 import { InteractiveMessage } from './traceExplorer';
-import { getInteractiveDiagnostics, InteractiveDiagnostic, TaggedText_stripTags } from '@leanprover/infoview-api';
+import { getInteractiveDiagnostics, InteractiveDiagnostic } from '@leanprover/infoview-api';
 import { RpcContext, useRpcSessionAtPos } from './rpcSessions';
 
 interface MessageViewProps {
@@ -61,7 +61,7 @@ const MessageView = React.memo(({uri, diag}: MessageViewProps) => {
     )
 }, fastIsEqual)
 
-function mkMessageViewProps(uri: DocumentUri, messages: InteractiveDiagnostic[]): MessageViewProps[] {
+function mkMessageViewProps(uri: DocumentUri, messages: InteractiveDiagnostic[]): Keyed<MessageViewProps>[] {
     const views: MessageViewProps[] = messages
         .sort((msga, msgb) => {
             const a = msga.fullRange?.end || msga.range.end;
@@ -81,7 +81,7 @@ export const MessagesList = React.memo(({uri, messages}: {uri: DocumentUri, mess
 
     return (
     <div className="ml1">
-        {mkMessageViewProps(uri, messages).map(m => <MessageView {...m} />)}
+        {mkMessageViewProps(uri, messages).map(({ key, ...rest }) => <MessageView key={key} {...rest} />)}
     </div>
     );
 })

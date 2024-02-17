@@ -123,7 +123,10 @@ export function Infos() {
     if (curPos) infoProps.push({ kind: 'cursor', onPin: pin, key: 'cursor' });
 
     return <div>
-        {infoProps.map (ps => <Info {...ps} />)}
-        {!curPos && <p>Click somewhere in the Lean file to enable the infoview.</p> }
+        {infoProps.map(ps => {
+            let { key, ...restPs } = ps;
+            return <Info key={key} {...restPs} />
+        })}
+        {!curPos && <p>Click somewhere in the Lean file to enable the infoview.</p>}
     </div>;
 }
