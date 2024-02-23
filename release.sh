@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=all
 if [ $# != 1 ]; then
   echo Usage: ./release.sh 1.2.3
   exit 1
